@@ -16,19 +16,20 @@ class TheServer {
   }
 
   submitTasks(data, token) {
-    console.log("the token is", token)
-    // $.ajax("/api/v1/tasks", {
-    //   method: "post",
-    //   dataType: "json",
-    //   contentType: "application/json; charset=UTF-8",
-    //   data: JSON.stringify({ tasks: data}),
-    //   success: (resp) => {
-    //     store.dispatch({
-    //       type: "ADD_TASK",
-    //       task: resp.data,
-    //     });
-    //   }
-    // });
+    let newData = {user_id: ""+token, title: data.title, body: data.body, assigned_id: data.assigned_id, completed: data.completed, time_taken: data.time_taken, token: data.token}
+
+    $.ajax("/api/v1/tasks", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({ tasks: newData}),
+      success: (resp) => {
+        store.dispatch({
+          type: "ADD_TASK",
+          task: resp.data,
+        });
+      }
+    });
   }
 
   updateTasks(data, id) {

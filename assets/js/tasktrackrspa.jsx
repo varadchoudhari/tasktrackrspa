@@ -7,6 +7,8 @@ import ByMe from './byme';
 import Assigned from './assigned';
 import PostForm from './post-form';
 import EditForm from './edit-form';
+import Feed from './feed';
+import Register from './register'
 
 export default function tasktrackrspa_init(root, store) {
   ReactDOM.render(
@@ -19,11 +21,11 @@ export default function tasktrackrspa_init(root, store) {
 let Tasktrackrspa = connect((state) => state)((params) => {
     return(<Router>
       <div>
-      <div><h1>TaskTrackr</h1></div>
-      <Nav />
-      <Route path="/byme" exact={true} render={() => <ByMe tasks={params.tasks}/>} />
-      <Route path="/assigned" exact={true} render={() => <Assigned />} />
-      <Route path="/new" exact={true} render={() => <PostForm users={params.users}/>} />
+      <Nav users={params.users}/>
+      <Route path="/" exact={true} render={() => {if (params.token != null) {return(<Feed tasks={params.tasks} token={params.token.user_id}/>)} else {return(<Register />)}}} />
+      <Route path="/byme" exact={true} render={() => {if (params.token != null) {return(<ByMe tasks={params.tasks} token={params.token.user_id}/>)} else {return(<Register />)}}} />
+      <Route path="/assigned" exact={true} render={() => {if (params.token !=null) {return(<Assigned tasks={params.tasks} token={params.token.user_id}/>)} else {return(<Register />)}}} />
+      <Route path="/new" exact={true} render={() =>{if (params.token != null) {return(<PostForm users={params.users} token={params.token.user_id}/>)} else {return(<Register />)}}} />
       <Route name="edit" path="/edit/:task_id" render={(taskid) => <EditForm users={params.users} taskid={taskid.match.params.task_id} tasks={params.tasks}/>} />
       </div>
   </Router>)

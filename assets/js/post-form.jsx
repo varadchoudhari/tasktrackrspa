@@ -16,8 +16,7 @@ function PostForm(params) {
   }
 
   function submit() {
-    console.log(params.form);
-    api.submitTasks(params.form)
+    api.submitTasks(params.form, params.token)
   }
 
   function clear() {
@@ -26,13 +25,6 @@ function PostForm(params) {
   let users = _.map(params.users, (uu) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
   return <div style={ {padding: "4ex"} }>
     <h2>New Task</h2>
-    <FormGroup>
-      <Label for="user_id">User</Label>
-      <Input type="select" name="user_id" value={params.form.user_id} onChange={update}>
-        <option>Select a user</option>
-        { users }
-      </Input>
-    </FormGroup>
     <FormGroup>
       <Label for="title">Title</Label>
       <Input type="text" name="title" value={params.form.title} onChange={update}/>

@@ -23,23 +23,20 @@ function Task(params) {
       </div>
     </CardBody>
     <CardFooter>
+      {params.token === task.user.id || params.token === task.assigned.id ?
       <Link taskid={task.id} to={"/edit/"+task.id}>
         EDIT
       </Link>
+      :
+      <div></div>
+    }
     </CardFooter>
   </Card>
   <div className="padding"></div>
 </div>)
 }
 
-export default function ByMe(params) {
-  let byMe = params.tasks.filter((task) => {
-    return task.user.id == params.token
-  })
-  let tasks = _.map(byMe, (tt) => <Task key={tt.id} task={tt} />);
-  return(
-    <div>
-      {tasks}
-    </div>
-  )
+export default function Feed(params) {
+  let tasks = _.map(params.tasks, (tt) => <Task key={tt.id} task={tt} token={params.token}/>);
+  return(<div>{tasks}</div>)
 }

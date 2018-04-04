@@ -5,6 +5,8 @@ function token(state = null, action) {
   switch(action.type) {
     case 'SET_TOKEN':
       return action.token
+    case 'LOGOUT':
+      return null
     default:
       return state;
   }
@@ -20,7 +22,7 @@ function login(state = empty_login, action) {
     case 'UPDATE_LOGIN_FORM':
       return Object.assign({}, state, action.data)
     default:
-    return state;
+      return state;
   }
 }
 

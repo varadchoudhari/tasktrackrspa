@@ -1,14 +1,20 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {Button, ButtonGroup, Input, FormGroup, Form} from 'reactstrap';
+import {NavLink} from 'react-router-dom';
+import {Button, ButtonGroup, Input, FormGroup, Form, NavItem} from 'reactstrap';
 import {connect} from 'react-redux';
 import api from './api';
 
 let Session = connect(({token}) => {
   return {token};
 })((props) => {
+  function logout() {
+    props.dispatch({
+      type: "LOGOUT",
+    });
+  }
   return <div className="navbar-text">
-    User = {props.token.user_id}
+    Welcome {props.current[0].name}!&nbsp;|&nbsp;
+    <Button onClick={logout}>Logout</Button>
   </div>
 });
 
@@ -43,20 +49,32 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
 function Nav(params) {
   let session_info;
   if (params.token) {
-    session_info = <Session />
+    let current = params.users.filter((user) => {
+      return user.id == params.token.user_id
+    })
+    session_info = <Session current={current}/>
   }
   else {
     session_info = <LoginForm />
   }
   return(
-    <div>
-    <ButtonGroup>
-        <Link to='/byme' exact={true}><Button color="secondary">Created Tasks</Button></Link>
-        <Link to='/assigned' exact={true}><Button color="secondary">Assigned Tasks</Button></Link>
-        <Link to='/new' exact={true}><Button color="primary">Add Task</Button></Link>
-    </ButtonGroup>
+    <nav className="navbar navbar-dark bg-dark navbar-expand">
+      <span className="navbar-brand">
+        <NavLink to="/" exact={true}>TaskTrackr</NavLink>
+      </span>
+      <ul className="navbar-nav mr-auto">
+    <NavItem>
+        <NavLink to='/byme' exact={true} activeClassName="active" className="nav-link">Created Task</NavLink>
+        </NavItem>
+        <NavItem>
+        <NavLink to='/assigned' exact={true} activeClassName="active" className="nav-link">Assigned Task</NavLink>
+        </NavItem>
+        <NavItem>
+        <NavLink to='/new' exact={true} activeClassName="active" className="nav-link">Add Task</NavLink>
+        </NavItem>
+    </ul>
     {session_info}
-  </div>
+  </nav>
     );
   }
 
