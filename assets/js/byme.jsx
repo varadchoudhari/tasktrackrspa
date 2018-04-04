@@ -1,5 +1,6 @@
 import React from 'react';
-import {Card, CardBody, CardHeader, CardTitle, CardFooter} from 'reactstrap';
+import {Button, Card, CardBody, CardHeader, CardTitle, CardFooter} from 'reactstrap';
+import {Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
 function Task(params) {
   let task = params.task;
@@ -10,10 +11,15 @@ function Task(params) {
     </div>
     </CardTitle>
     <CardBody>
-      <div> 
+      <div>
         {task.body}
       </div>
     </CardBody>
+    <CardFooter>
+      <Link taskid={task.id} to={"/edit/"+task.id}>
+        EDIT
+      </Link>
+    </CardFooter>
   </Card>)
 }
 

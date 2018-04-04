@@ -25,7 +25,7 @@ defmodule TasktrackrspaWeb.TaskController do
     render(conn, "show.json", task: task)
   end
 
-  def update(conn, %{"id" => id, "task" => task_params}) do
+  def update(conn, %{"id" => id, "tasks" => task_params}) do
     task = Work.get_task!(id)
 
     with {:ok, %Task{} = task} <- Work.update_task(task, task_params) do

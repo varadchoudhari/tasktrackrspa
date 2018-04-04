@@ -6,6 +6,7 @@ import Nav from './nav';
 import ByMe from './byme';
 import Assigned from './assigned';
 import PostForm from './post-form';
+import EditForm from './edit-form';
 
 export default function tasktrackrspa_init(root, store) {
   ReactDOM.render(
@@ -23,6 +24,7 @@ let Tasktrackrspa = connect((state) => state)((params) => {
       <Route path="/byme" exact={true} render={() => <ByMe tasks={params.tasks}/>} />
       <Route path="/assigned" exact={true} render={() => <Assigned />} />
       <Route path="/new" exact={true} render={() => <PostForm users={params.users}/>} />
+      <Route name="edit" path="/edit/:task_id" render={(taskid) => <EditForm users={params.users} taskid={taskid.match.params.task_id} tasks={params.tasks}/>} />
       </div>
   </Router>)
 });

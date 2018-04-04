@@ -30,6 +30,22 @@ class TheServer {
     });
   }
 
+  updateTasks(data, id) {
+    $.ajax("/api/v1/tasks/"+id, {
+      method: "put",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({ tasks: data}),
+      success: (resp) => {
+        console.log("TODO: updated!!")
+        // store.dispatch({
+        //   type: "ADD_TASK",
+        //   task: resp.data,
+        // });
+      }
+    });
+  }
+
   requestUsers() {
     $.ajax("/api/v1/users", {
       method: "get",
