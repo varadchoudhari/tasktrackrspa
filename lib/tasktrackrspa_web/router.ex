@@ -16,6 +16,9 @@ defmodule TasktrackrspaWeb.Router do
   scope "/", TasktrackrspaWeb do
     pipe_through :browser # Use the default browser stack
     get "/users", PageController, :index
+    get "/byme", PageController, :index
+    get "/assigned", PageController, :index
+    get "/new", PageController, :index
     get "/tasks", PageController, :index
     get "/users/:id", PageController, :index
 

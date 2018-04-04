@@ -13,6 +13,8 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 import tasktrackrspa_init from './tasktrackrspa';
+import store from './store';
+import api from './api'
 
 // Import local files
 //
@@ -22,7 +24,9 @@ import tasktrackrspa_init from './tasktrackrspa';
 // import socket from "./socket"
 function start() {
   let root = document.getElementById('root');
-  tasktrackrspa_init(root);
+  api.requestTasks();
+  api.requestUsers();
+  tasktrackrspa_init(root, store);
 }
 
 $(start);

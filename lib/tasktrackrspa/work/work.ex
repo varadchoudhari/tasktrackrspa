@@ -36,7 +36,10 @@ defmodule Tasktrackrspa.Work do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id) do
+    Repo.get!(Task, id)
+    |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a task.
@@ -51,9 +54,11 @@ defmodule Tasktrackrspa.Work do
 
   """
   def create_task(attrs \\ %{}) do
-    %Task{}
+    {:ok, task} = %Task{}
     |> Task.changeset(attrs)
     |> Repo.insert()
+    task1 =  Repo.preload(task, :user)
+    {:ok, task1}
   end
 
   @doc """

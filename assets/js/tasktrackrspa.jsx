@@ -1,12 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider, connect } from 'react-redux';
+import Nav from './nav';
+import ByMe from './byme';
+import Assigned from './assigned';
+import PostForm from './post-form';
 
-export default function tasktrackrspa_init(root) {
-  ReactDOM.render(<Tasktrackrspa />, root);
+export default function tasktrackrspa_init(root, store) {
+  ReactDOM.render(
+    <Provider store={store}>
+    <Tasktrackrspa />
+    </Provider>, root
+    );
 }
 
-class Tasktrackrspa extends React.Component {
-  render() {
-    return(<div>This is tasktrackr React</div>)
-  }
-}
+let Tasktrackrspa = connect((state) => state)((params) => {
+    return(<Router>
+      <div>
+      <div><h1>TaskTrackr</h1></div>
+      <Nav />
+      <Route path="/byme" exact={true} render={() => <ByMe tasks={params.tasks}/>} />
+      <Route path="/assigned" exact={true} render={() => <Assigned />} />
+      <Route path="/new" exact={true} render={() => <PostForm users={params.users}/>} />
+      </div>
+  </Router>)
+});
