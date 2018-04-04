@@ -1,6 +1,29 @@
 import {createStore, combineReducers} from 'redux';
 import deepFreeze from 'deep-freeze';
 
+function token(state = null, action) {
+  switch(action.type) {
+    case 'SET_TOKEN':
+      return action.token
+    default:
+      return state;
+  }
+}
+
+let empty_login = {
+  name: "",
+  pass: "",
+};
+
+function login(state = empty_login, action) {
+  switch(action.type) {
+    case 'UPDATE_LOGIN_FORM':
+      return Object.assign({}, state, action.data)
+    default:
+    return state;
+  }
+}
+
 function users(state = [], action) {
   switch(action.type) {
     case 'USERS_LIST':
@@ -33,7 +56,9 @@ function form(state = empty_form, action) {
     case "UPDATE_FORM":
       return Object.assign({}, state, action.data);
     case "CLEAR_FORM":
-      return empty_form;
+      return Object.assign({}, state, empty_form);
+    case "SET_TOKEN":
+      return Object.assign({}, state, { token: action.token.token });
     default:
       return state;
   }
@@ -42,7 +67,7 @@ function form(state = empty_form, action) {
 function root_reducer(state0, action) {
   console.log("state0", state0);
   console.log("action", action);
-  let reducer = combineReducers({users, tasks, form});
+  let reducer = combineReducers({users, tasks, form, login, token});
   let state1 = reducer(state0, action);
   return deepFreeze(state1);
 }

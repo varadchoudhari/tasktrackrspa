@@ -15,19 +15,20 @@ class TheServer {
     });
   }
 
-  submitTasks(data) {
-    $.ajax("/api/v1/tasks", {
-      method: "post",
-      dataType: "json",
-      contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify({ tasks: data}),
-      success: (resp) => {
-        store.dispatch({
-          type: "ADD_TASK",
-          task: resp.data,
-        });
-      }
-    });
+  submitTasks(data, token) {
+    console.log("the token is", token)
+    // $.ajax("/api/v1/tasks", {
+    //   method: "post",
+    //   dataType: "json",
+    //   contentType: "application/json; charset=UTF-8",
+    //   data: JSON.stringify({ tasks: data}),
+    //   success: (resp) => {
+    //     store.dispatch({
+    //       type: "ADD_TASK",
+    //       task: resp.data,
+    //     });
+    //   }
+    // });
   }
 
   updateTasks(data, id) {
@@ -59,6 +60,27 @@ class TheServer {
       }
     });
   }
+
+submitLogin(data) {
+  $.ajax("/api/v1/token", {
+    method: "post",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: JSON.stringify(data),
+    success: (resp) => {
+      store.dispatch({
+        type: "SET_TOKEN",
+        token: resp,
+      });
+    },
+    // error: (msg) => {
+    //   store.dispatch({
+    //     type: 'SET_LOGIN_ERROR',
+    //     error: msg,
+    //   });
+    // }
+  });
+}
 };
 
 export default new TheServer();

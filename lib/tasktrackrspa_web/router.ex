@@ -28,6 +28,7 @@ defmodule TasktrackrspaWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api/v1", TasktrackrspaWeb do
      pipe_through :api
+     post "/token", TokenController, :create
      resources "/tasks", TaskController, except: [:new, :edit]
      resources "/users", UserController, except: [:new, :edit]
   end
