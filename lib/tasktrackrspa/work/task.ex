@@ -19,5 +19,13 @@ defmodule Tasktrackrspa.Work.Task do
     task
     |> cast(attrs, [:title, :body, :completed, :time_taken, :user_id, :assigned_id])
     |> validate_required([:title, :body, :completed, :time_taken, :user_id, :assigned_id])
+    |> validate_change(:time_taken, fn :time_taken, time ->
+      if rem(time, 15) != 0 do
+        [time_taken: "Invalid time"]
+      else
+        []
+      end
+    end
+      )
   end
 end

@@ -7,6 +7,23 @@ function EditForm(params) {
   function update(ev) {
     let tgt = $(ev.target);
     let data = {};
+    if (tgt.attr("name") === "completed") {
+      data["completed"] = ev.target.checked;
+      let action = {
+        type: 'UPDATE_FORM',
+        data: data,
+      }
+      params.dispatch(action)
+    }
+    else if (tgt.attr("name") === "time_taken") {
+        data[tgt.attr("name")] = Math.round(parseInt(tgt.val()) / 15) * 15;
+        let action = {
+          type: 'UPDATE_FORM',
+          data: data,
+        }
+        params.dispatch(action)
+    }
+    else {
     data[tgt.attr("name")] = tgt.val();
     let action = {
       type: 'UPDATE_FORM',
@@ -14,20 +31,19 @@ function EditForm(params) {
     }
     params.dispatch(action)
   }
+  }
 
   function submit() {
-    console.log(params.form);
-    console.log(params.taskid);
     let toSend = {}
     if(params.form.user_id != "") {toSend.user_id = params.form.user_id}
     if(params.form.title != "") {toSend.title = params.form.title}
     if(params.form.body != "") {toSend.body = params.form.body}
-    if(params.form.assigned_id != "") {toSend.assigned_id = params.form.assigned_id}
-    if(params.form.completed != "") {toSend.completed = params.form.completed}
+    toSend.assigned_id = params.form.assigned_id
+    toSend.completed = params.form.completed
     if(params.form.time_taken != "") {toSend.time_taken = params.form.time_taken}
     if (toSend != null) {
       toSend.id = params.taskid;
-      api.updateTasks(toSend, params.taskid)}
+      api.updateTasks(toSend, params.taskid, params.token)}
   }
 
   function clear() {
@@ -39,13 +55,6 @@ function EditForm(params) {
   })
   return <div style={ {padding: "4ex"} }>
     <h2>Update Task</h2>
-    <FormGroup>
-      <Label for="user_id">User</Label>
-      <Input type="select" name="user_id" defaultValue={task[0].user.id} onChange={update}>
-        <option>Select a user</option>
-        { users }
-      </Input>
-    </FormGroup>
     <FormGroup>
       <Label for="title">Title</Label>
       <Input type="text" name="title" defaultValue={task[0].title} onChange={update}/>
@@ -63,11 +72,11 @@ function EditForm(params) {
     </FormGroup>
     <FormGroup>
       <Label for="completed">Completed</Label>
-      <Input type="checkbox" name="completed" defaultValue={task[0].completed} onChange={update}/>
+      <Input type="checkbox" name="completed" defaultChecked={task[0].completed} onChange={update}/>
     </FormGroup>
     <FormGroup>
       <Label for="time_taken">Time Taken</Label>
-      <Input type="text" name="time_taken" defaultValue={task[0].time_taken} onChange={update}/>
+      <Input type="number" step="15" name="time_taken" defaultValue={task[0].time_taken} onChange={update}/>
     </FormGroup>
     <Button onClick={submit}>Update</Button>
     <Button onClick={clear}>Clear</Button>

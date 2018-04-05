@@ -17,4 +17,10 @@ defmodule TasktrackrspaWeb.FallbackController do
     |> put_status(:not_found)
     |> render(TasktrackrspaWeb.ErrorView, :"404")
   end
+
+  def call(conn, {:error, error}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> render(TasktrackrspaWeb.ChangesetView, "login.json", changeset: error)
+  end
 end

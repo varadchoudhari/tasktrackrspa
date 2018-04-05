@@ -26,7 +26,7 @@ let Tasktrackrspa = connect((state) => state)((params) => {
       <Route path="/byme" exact={true} render={() => {if (params.token != null) {return(<ByMe tasks={params.tasks} token={params.token.user_id}/>)} else {return(<Register />)}}} />
       <Route path="/assigned" exact={true} render={() => {if (params.token !=null) {return(<Assigned tasks={params.tasks} token={params.token.user_id}/>)} else {return(<Register />)}}} />
       <Route path="/new" exact={true} render={() =>{if (params.token != null) {return(<PostForm users={params.users} token={params.token.user_id}/>)} else {return(<Register />)}}} />
-      <Route name="edit" path="/edit/:task_id" render={(taskid) => <EditForm users={params.users} taskid={taskid.match.params.task_id} tasks={params.tasks}/>} />
+      <Route name="edit" path="/edit/:task_id" render={(taskid) => <EditForm users={params.users} taskid={taskid.match.params.task_id} tasks={params.tasks} token={params.token.user_id}/>} />
       </div>
   </Router>)
 });

@@ -4,11 +4,11 @@ import deepFreeze from 'deep-freeze';
 function token(state = null, action) {
   switch(action.type) {
     case 'SET_TOKEN':
-      return action.token
+    return action.token
     case 'LOGOUT':
-      return null
+    return null
     default:
-      return state;
+    return state;
   }
 }
 
@@ -20,16 +20,16 @@ let empty_login = {
 function login(state = empty_login, action) {
   switch(action.type) {
     case 'UPDATE_LOGIN_FORM':
-      return Object.assign({}, state, action.data)
+    return Object.assign({}, state, action.data)
     default:
-      return state;
+    return state;
   }
 }
 
 function users(state = [], action) {
   switch(action.type) {
     case 'USERS_LIST':
-      return [...action.users]
+    return [...action.users]
     default: return state
   }
 }
@@ -37,11 +37,14 @@ function users(state = [], action) {
 function tasks(state = [], action) {
   switch(action.type) {
     case 'TASKS_LIST':
-      return [...action.tasks]
+    return [...action.tasks]
     case 'ADD_TASK':
-      return [action.task, ...state]
+    return [action.task, ...state]
+    case 'UPDATE_TASK':
+      let newTasks = state.filter(tt => tt.id != action.task.id)
+      return [action.task, ...newTasks];
     default: return state
-}
+  }
 }
 
 let empty_form = {
@@ -56,13 +59,13 @@ let empty_form = {
 function form(state = empty_form, action) {
   switch (action.type) {
     case "UPDATE_FORM":
-      return Object.assign({}, state, action.data);
+    return Object.assign({}, state, action.data);
     case "CLEAR_FORM":
-      return Object.assign({}, state, empty_form);
+    return Object.assign({}, state, empty_form);
     case "SET_TOKEN":
-      return Object.assign({}, state, { token: action.token.token });
+    return Object.assign({}, state, { token: action.token.token });
     default:
-      return state;
+    return state;
   }
 }
 

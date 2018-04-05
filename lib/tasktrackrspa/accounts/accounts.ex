@@ -13,8 +13,8 @@ defmodule Tasktrackrspa.Accounts do
 
   ## Examples
 
-      iex> list_users()
-      [%User{}, ...]
+  iex> list_users()
+  [%User{}, ...]
 
   """
   def list_users do
@@ -28,81 +28,90 @@ defmodule Tasktrackrspa.Accounts do
 
   ## Examples
 
-      iex> get_user!(123)
-      %User{}
+  iex> get_user!(123)
+  %User{}
 
-      iex> get_user!(456)
-      ** (Ecto.NoResultsError)
+  iex> get_user!(456)
+  ** (Ecto.NoResultsError)
 
   """
   def get_user!(id), do: Repo.get!(User, id)
 
   def get_and_auth_user(name, pass) do
-    user = Repo.one(from u in User, where: u.name == ^name)
-    Comeonin.Argon2.check_pass(user, pass)
-  end
-  @doc """
-  Creates a user.
+    case user = Repo.one(from u in User, where: u.name == ^name) do
+      nil ->
+        {:error, "failed"}
+        _ ->
+        case Comeonin.Argon2.check_pass(user, pass) do
+          {:ok, user} ->
+            {:ok, user}
+            {:error, msg} ->
+              {:error, "failed"}
+            end
+          end
+        end
+        @doc """
+        Creates a user.
 
-  ## Examples
+        ## Examples
 
-      iex> create_user(%{field: value})
-      {:ok, %User{}}
+        iex> create_user(%{field: value})
+        {:ok, %User{}}
 
-      iex> create_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+        iex> create_user(%{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
-  """
-  def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
-  end
+        """
+        def create_user(attrs \\ %{}) do
+          %User{}
+          |> User.changeset(attrs)
+          |> Repo.insert()
+        end
 
-  @doc """
-  Updates a user.
+        @doc """
+        Updates a user.
 
-  ## Examples
+        ## Examples
 
-      iex> update_user(user, %{field: new_value})
-      {:ok, %User{}}
+        iex> update_user(user, %{field: new_value})
+        {:ok, %User{}}
 
-      iex> update_user(user, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+        iex> update_user(user, %{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
-  """
-  def update_user(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
-    |> Repo.update()
-  end
+        """
+        def update_user(%User{} = user, attrs) do
+          user
+          |> User.changeset(attrs)
+          |> Repo.update()
+        end
 
-  @doc """
-  Deletes a User.
+        @doc """
+        Deletes a User.
 
-  ## Examples
+        ## Examples
 
-      iex> delete_user(user)
-      {:ok, %User{}}
+        iex> delete_user(user)
+        {:ok, %User{}}
 
-      iex> delete_user(user)
-      {:error, %Ecto.Changeset{}}
+        iex> delete_user(user)
+        {:error, %Ecto.Changeset{}}
 
-  """
-  def delete_user(%User{} = user) do
-    Repo.delete(user)
-  end
+        """
+        def delete_user(%User{} = user) do
+          Repo.delete(user)
+        end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user changes.
+        @doc """
+        Returns an `%Ecto.Changeset{}` for tracking user changes.
 
-  ## Examples
+        ## Examples
 
-      iex> change_user(user)
-      %Ecto.Changeset{source: %User{}}
+        iex> change_user(user)
+        %Ecto.Changeset{source: %User{}}
 
-  """
-  def change_user(%User{} = user) do
-    User.changeset(user, %{})
-  end
-end
+        """
+        def change_user(%User{} = user) do
+          User.changeset(user, %{})
+        end
+      end

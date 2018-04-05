@@ -4,6 +4,7 @@ import {Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
 function Task(params) {
   let task = params.task;
+  console.log("the task", task)
   return(
     <div>
     <Card>
@@ -13,7 +14,7 @@ function Task(params) {
         <h1>
       {task.title}
     </h1>
-    <span>by {task.user.name}</span>&nbsp; | &nbsp; <span>This task is assigned to {task.assigned.name}</span>
+    <span>by {task.user.name}</span>&nbsp; | &nbsp; <span>This task is assigned to {task.assigned.name}</span>&nbsp; | &nbsp; <span>Time taken: {task.time_taken}</span>&nbsp; | &nbsp; <span>Completed: {task.completed ? "Completed" : "Not Completed"}</span>
     </div>
     </CardTitle>
     </CardHeader>

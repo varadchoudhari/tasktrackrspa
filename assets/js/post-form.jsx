@@ -4,10 +4,41 @@ import { connect } from 'react-redux';
 import api from './api';
 
 function PostForm(params) {
-  function update(ev) {
+  function updateTitle(ev) {
     let tgt = $(ev.target);
     let data = {};
     data[tgt.attr("name")] = tgt.val();
+    if (data[tgt.attr("name")] === "") {
+      console.log("Title cannot be null")
+    }
+    let action = {
+      type: 'UPDATE_FORM',
+      data: data,
+    }
+    params.dispatch(action)
+  }
+
+  function updateBody(ev) {
+    let tgt = $(ev.target);
+    let data = {};
+    data[tgt.attr("name")] = tgt.val();
+    if (data[tgt.attr("name")] === "") {
+      console.log("Body cannot be null")
+    }
+    let action = {
+      type: 'UPDATE_FORM',
+      data: data,
+    }
+    params.dispatch(action)
+  }
+
+  function updateAssigned(ev) {
+    let tgt = $(ev.target);
+    let data = {};
+    data[tgt.attr("name")] = tgt.val();
+    if (data[tgt.attr("name")] === "") {
+      console.log("Assigned cannot be null")
+    }
     let action = {
       type: 'UPDATE_FORM',
       data: data,
@@ -17,6 +48,7 @@ function PostForm(params) {
 
   function submit() {
     api.submitTasks(params.form, params.token)
+    clear()
   }
 
   function clear() {
@@ -27,26 +59,18 @@ function PostForm(params) {
     <h2>New Task</h2>
     <FormGroup>
       <Label for="title">Title</Label>
-      <Input type="text" name="title" value={params.form.title} onChange={update}/>
+      <Input type="text" name="title" value={params.form.title} onChange={updateTitle}/>
     </FormGroup>
     <FormGroup>
       <Label for="body">Body</Label>
-      <Input type="textarea" name="body" value={params.form.body} onChange={update}/>
+      <Input type="textarea" name="body" value={params.form.body} onChange={updateBody}/>
     </FormGroup>
     <FormGroup>
       <Label for="assigned">Assigned</Label>
-      <Input type="select" name="assigned_id" value={params.form.assigned_id} onChange={update}>
+      <Input type="select" name="assigned_id" value={params.form.assigned_id} onChange={updateAssigned}>
         <option>Select a user</option>
         {users}
       </Input>
-    </FormGroup>
-    <FormGroup>
-      <Label for="completed">Completed</Label>
-      <Input type="checkbox" name="completed" value={params.form.completed} onChange={update}/>
-    </FormGroup>
-    <FormGroup>
-      <Label for="time_taken">Time Taken</Label>
-      <Input type="text" name="time_taken" value={params.form.time_taken} onChange={update}/>
     </FormGroup>
     <Button onClick={submit}>Create</Button>
     <Button onClick={clear}>Clear</Button>

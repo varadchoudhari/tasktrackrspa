@@ -18,6 +18,6 @@ defmodule TasktrackrspaWeb.TaskView do
       completed: task.completed,
       time_taken: task.time_taken,
       user: render_one(task.user, UserView, "user.json"),
-      assigned: render_one(task.user, UserView, "user.json")}
+      assigned: render_one(task.assigned, UserView, "user.json")}
   end
 end

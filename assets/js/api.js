@@ -16,8 +16,8 @@ class TheServer {
   }
 
   submitTasks(data, token) {
-    let newData = {user_id: ""+token, title: data.title, body: data.body, assigned_id: data.assigned_id, completed: data.completed, time_taken: data.time_taken, token: data.token}
-
+    let newData = {user_id: ""+token, title: data.title, body: data.body, assigned_id: ""+data.assigned_id, completed: data.completed, time_taken: ""+0, token: data.token}
+    console.log("NEWWWW", newData);
     $.ajax("/api/v1/tasks", {
       method: "post",
       dataType: "json",
@@ -32,18 +32,21 @@ class TheServer {
     });
   }
 
-  updateTasks(data, id) {
+  updateTasks(data, id, token) {
+    let newData = data
+    newData.user_id = ""+token
+
     $.ajax("/api/v1/tasks/"+id, {
       method: "put",
       dataType: "json",
       contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify({ tasks: data}),
+      data: JSON.stringify({ tasks: newData}),
       success: (resp) => {
-        console.log("TODO: updated!!")
-        // store.dispatch({
-        //   type: "ADD_TASK",
-        //   task: resp.data,
-        // });
+        console.log("response??", resp.data)
+        store.dispatch({
+          type: "UPDATE_TASK",
+          task: resp.data,
+        });
       }
     });
   }
@@ -74,12 +77,13 @@ submitLogin(data) {
         token: resp,
       });
     },
-    // error: (msg) => {
-    //   store.dispatch({
-    //     type: 'SET_LOGIN_ERROR',
-    //     error: msg,
-    //   });
-    // }
+    error: (msg) => {
+      console.log("login failed!!")
+      // store.dispatch({
+      //   type: 'SET_LOGIN_ERROR',
+      //   error: msg,
+      // });
+    }
   });
 }
 };

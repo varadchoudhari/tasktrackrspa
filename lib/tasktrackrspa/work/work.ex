@@ -20,6 +20,7 @@ defmodule Tasktrackrspa.Work do
   def list_tasks do
     Repo.all(Task)
     |> Repo.preload(:user)
+    |> Repo.preload(:assigned)
   end
 
   @doc """
@@ -38,7 +39,6 @@ defmodule Tasktrackrspa.Work do
   """
   def get_task!(id) do
     Repo.get!(Task, id)
-    |> Repo.preload(:user)
   end
 
   @doc """
@@ -54,12 +54,15 @@ defmodule Tasktrackrspa.Work do
 
   """
   def create_task(attrs \\ %{}) do
-    {:ok, task} = %Task{}
+    case %Task{}
     |> Task.changeset(attrs)
-    |> Repo.insert()
-    task1 =  Repo.preload(task, :user)
-    {:ok, task1}
+    |> Repo.insert() do
+      {:ok, task} ->
+        {:ok, Repo.preload(task, :user) |> Repo.preload(:assigned)}
+    {:error, changeset} ->
+      {:error, changeset}
   end
+end
 
   @doc """
   Updates a task.
@@ -74,9 +77,14 @@ defmodule Tasktrackrspa.Work do
 
   """
   def update_task(%Task{} = task, attrs) do
-    task
+    case task
     |> Task.changeset(attrs)
-    |> Repo.update()
+    |> Repo.update() do
+      {:ok, task1} ->
+        {:ok, Repo.preload(task, :user) |> Repo.preload(:assigned)}
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
