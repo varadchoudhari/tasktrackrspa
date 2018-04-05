@@ -14,11 +14,11 @@ Since the feed lists all the tasks across the system, to enforce security, I hav
 **4. Enter TITLE, BODY, and ASSIGNEE while creating new task**   
 While creating a new task, the user needs to enter only the task TITLE, BODY, and the ASSIGNEE name. Time taken field is set to 0 by default, and completed status is set to false by default. To edit time taken and completed status, the owner/assignee needs to EDIT the task.
 
-**7. "Created Tasks" list**   
+**5. "Created Tasks" list**   
 I have kept a separate index that shows a list of tasks created by the user that is currently logged in.
 
-**8. "Assigned Tasks" list**   
+**6. "Assigned Tasks" list**   
 I have kept a separate index that shows a list of tasks that are assigned to the user that is currently logged in.
 
-**10. 15-minute increments**
+**7. 15-minute increments**
 I have used stepper at the front-end to set time in 15-minute increments. In addition to that, I have also validated it (whether the entered time is in 15-minute increments) at the server side before storing it in the database. If a random number is entered, then it will be rounded to nearest 15th minute interval.
