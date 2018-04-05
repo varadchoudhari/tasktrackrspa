@@ -14,7 +14,7 @@ let Session = connect(({token}) => {
   }
   return <div className="navbar-text">
     Welcome {props.current[0].name}!&nbsp;|&nbsp;
-    <Button onClick={logout}>Logout</Button>
+    <NavLink to="/" onClick={logout}>Logout</NavLink>
   </div>
 });
 

@@ -14,8 +14,16 @@ defmodule Tasktrackrspa.Accounts.User do
 
   @doc false
   def changeset(user, attrs) do
+    name = nil
+    password = nil
+    if attrs["name"] != "" and attrs["pass"] != "" do
+      name = attrs["name"]
+      password = Comeonin.Argon2.hashpwsalt(attrs["pass"])
+    end
+    toSend = %{"name" => name, "pass" => password}
+
     user
-    |> cast(attrs, [:name, :password_hash])
+    |> cast(toSend, [:name, :password_hash])
     |> validate_required([:name])
   end
 end

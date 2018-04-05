@@ -47,6 +47,19 @@ function tasks(state = [], action) {
   }
 }
 
+let empty_register = {
+  name: "",
+  pass: "",
+};
+
+function register(state = empty_register, action) {
+  switch(action.type) {
+    case 'ADD_USER':
+      return Object.assign({}, state, action.data)
+      default: return state
+  }
+}
+
 let empty_form = {
   user_id: "",
   title: "",
@@ -70,9 +83,7 @@ function form(state = empty_form, action) {
 }
 
 function root_reducer(state0, action) {
-  console.log("state0", state0);
-  console.log("action", action);
-  let reducer = combineReducers({users, tasks, form, login, token});
+  let reducer = combineReducers({users, tasks, form, login, token, register});
   let state1 = reducer(state0, action);
   return deepFreeze(state1);
 }
