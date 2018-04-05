@@ -38,16 +38,12 @@ defmodule Tasktrackrspa.Accounts do
   def get_user!(id), do: Repo.get!(User, id)
 
   def get_and_auth_user(name, pass) do
-    case user = Repo.one(from u in User, where: u.name == ^name) do
-      nil ->
-        {:error, "failed"}
-        _ ->
+    user = Repo.one(from u in User, where: u.name == ^name)
         case Comeonin.Argon2.check_pass(user, pass) do
           {:ok, user} ->
             {:ok, user}
-            {:error, msg} ->
-              {:error, "failed"}
-            end
+            {_error, changeset} ->
+              {:error, changeset}
           end
         end
         @doc """

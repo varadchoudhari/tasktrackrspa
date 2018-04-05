@@ -19,7 +19,6 @@ function Register(params) {
     }
     params.dispatch(action)
   }
-  console.log("params???", params.register)
   return(<div className="w-50">
     <h2>New To TaskTrackr?, create a new account</h2>
     <Form>

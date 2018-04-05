@@ -17,7 +17,6 @@ class TheServer {
 
   submitTasks(data, token) {
     let newData = {user_id: ""+token, title: data.title, body: data.body, assigned_id: ""+data.assigned_id, completed: data.completed, time_taken: ""+0, token: data.token}
-    console.log("NEWWWW", newData);
     $.ajax("/api/v1/tasks", {
       method: "post",
       dataType: "json",
@@ -50,6 +49,7 @@ class TheServer {
   updateTasks(data, id, token) {
     let newData = data
     newData.user_id = ""+token
+    console.log(newData)
 
     $.ajax("/api/v1/tasks/"+id, {
       method: "put",
@@ -57,7 +57,6 @@ class TheServer {
       contentType: "application/json; charset=UTF-8",
       data: JSON.stringify({ tasks: newData}),
       success: (resp) => {
-        console.log("response??", resp.data)
         store.dispatch({
           type: "UPDATE_TASK",
           task: resp.data,

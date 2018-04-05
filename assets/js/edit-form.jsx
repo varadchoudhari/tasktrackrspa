@@ -16,7 +16,8 @@ function EditForm(params) {
       params.dispatch(action)
     }
     else if (tgt.attr("name") === "time_taken") {
-        data[tgt.attr("name")] = Math.round(parseInt(tgt.val()) / 15) * 15;
+        let roundoff = Math.round(parseInt(tgt.val()) / 15) * 15;
+        if(roundoff >= 0) {data[tgt.attr("name")] = roundoff} else {data[tgt.attr("name")] = 0}
         let action = {
           type: 'UPDATE_FORM',
           data: data,
@@ -38,7 +39,7 @@ function EditForm(params) {
     if(params.form.user_id != "") {toSend.user_id = params.form.user_id}
     if(params.form.title != "") {toSend.title = params.form.title}
     if(params.form.body != "") {toSend.body = params.form.body}
-    toSend.assigned_id = params.form.assigned_id
+    if(params.form.body != "") {toSend.assigned_id = params.form.assigned_id}
     toSend.completed = params.form.completed
     if(params.form.time_taken != "") {toSend.time_taken = params.form.time_taken}
     if (toSend != null) {

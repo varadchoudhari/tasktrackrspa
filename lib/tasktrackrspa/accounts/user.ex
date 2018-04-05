@@ -20,10 +20,10 @@ defmodule Tasktrackrspa.Accounts.User do
       name = attrs["name"]
       password = Comeonin.Argon2.hashpwsalt(attrs["pass"])
     end
-    toSend = %{"name" => name, "pass" => password}
-
+    toSend = %{"name" => name, "password_hash" => password}
+    IO.inspect toSend, label: "TO SEND"
     user
     |> cast(toSend, [:name, :password_hash])
-    |> validate_required([:name])
+    |> validate_required([:name, :password_hash])
   end
 end
